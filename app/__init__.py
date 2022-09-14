@@ -1,6 +1,10 @@
 import os
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 from config import config
+
+
+db = SQLAlchemy()
 
 
 def create_app(config_name):
@@ -17,6 +21,9 @@ def create_app(config_name):
     # load config
     app.config.from_object(config[config_name])
     config[config_name].init_app(app, app.instance_path)
+
+    # load components
+    db.init_app(app)
 
     # a simple page that says hello
     @app.route('/hello')
