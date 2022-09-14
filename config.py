@@ -30,12 +30,8 @@ class Config:
 class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE = 'data-dev.sqlite'
-
-    @classmethod
-    def init_app(cls, app, instance_path):
-        Config.init_app(app, instance_path)
-        cls.SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
-                                  'sqlite:///' + os.path.join(instance_path, cls.SQLALCHEMY_DATABASE)
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
+                                  'sqlite:///' + os.path.join(basedir, SQLALCHEMY_DATABASE)
 
 
 class TestingConfig(Config):
@@ -47,13 +43,12 @@ class TestingConfig(Config):
 
 class ProductionConfig(Config):
     SQLALCHEMY_DATABASE = 'data.sqlite'
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
+                                  'sqlite:///' + os.path.join(basedir, SQLALCHEMY_DATABASE)
 
     @classmethod
     def init_app(cls, app, instance_path):
         Config.init_app(app, instance_path)
-
-        cls.SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
-                                      'sqlite:///' + os.path.join(instance_path, cls.SQLALCHEMY_DATABASE)
 
         # email errors to the administrators
         import logging

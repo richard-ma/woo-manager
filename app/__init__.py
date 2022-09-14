@@ -10,7 +10,7 @@ db = SQLAlchemy()
 def create_app(config_name):
 
     # create and configure the app
-    app = Flask(__name__, instance_relative_config=True)
+    app = Flask(__name__)
 
     # ensure the instance folder exists
     try:
@@ -19,8 +19,8 @@ def create_app(config_name):
         pass
 
     # load config
-    app.config.from_object(config[config_name])
     config[config_name].init_app(app, app.instance_path)
+    app.config.from_object(config[config_name])
 
     # load components
     db.init_app(app)
