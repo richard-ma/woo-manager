@@ -1,7 +1,7 @@
 from . import db
 
 
-class Site(db.Model):
+class Store(db.Model):
     __tablename__ = 'sites'
     url = db.Column(db.String(128), primary_key=True)
     key = db.Column(db.String(128))
