@@ -1,11 +1,5 @@
 from flask import Blueprint
 
-from ..models import Store
+store = Blueprint('store', __name__, template_folder='templates', static_folder='static')
 
-
-store = Blueprint('store', __name__)
-
-
-@store.route('/')
-def index():
-    return '<h1>store index</h1>'
+from .views import *
