@@ -2,7 +2,7 @@ from . import db
 
 
 class Store(db.Model):
-    __tablename__ = 'sites'
+    __tablename__ = 'stores'
     url = db.Column(db.String(128), primary_key=True)
     key = db.Column(db.String(128))
     secret = db.Column(db.String(128))
