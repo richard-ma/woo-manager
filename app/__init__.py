@@ -26,12 +26,10 @@ def create_app(config_name):
     db.init_app(app)
 
     # load blueprints
-    from .store import store as site_blueprint
-    app.register_blueprint(site_blueprint, url_prefix='/store')
+    from .main import main as main_blueprint
+    app.register_blueprint(main_blueprint)
 
-    # a simple page that says hello
-    @app.route('/hello')
-    def hello():
-        return 'Hello, World!'
+    from .store import store as store_blueprint
+    app.register_blueprint(store_blueprint, url_prefix='/store')
 
     return app
