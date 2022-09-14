@@ -1,6 +1,7 @@
 import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from config import config
 
 
@@ -24,6 +25,7 @@ def create_app(config_name):
 
     # load components
     db.init_app(app)
+    migrate = Migrate(app, db)
 
     # load blueprints
     from .main import main as main_blueprint
