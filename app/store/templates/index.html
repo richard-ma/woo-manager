@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 {% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
 
 {% block page_content %}
+    <div class="text-right">
+        <a class="btn btn-primary" href="{{ url_for('store.create') }}">Add Store</a>
+    </div>
     <div class="panel panel-default">
         <div class="panel-heading">Stores</div>
         <table class="table table-hover">
@@ -17,10 +21,17 @@
                 <tr>
                     <td>{{ store.url }}</td>
                     <td>{{ store.version }}</td>
-                    <td>{{ store.active }}</td>
+                    <td>{% if store.active %}Active{% else %}Deactive{% endif %}</td>
+                    <td>
+                        <a class="btn btn-primary" href="{{ url_for('store.update', url=store.url) }}">Edit</a>
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
     </div>
+
+    {% if pagination %}
+        {{ macros.pagination_widget(pagination, '.index') }}
+    {% endif %}
 {% endblock %}

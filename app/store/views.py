@@ -15,11 +15,11 @@ def index():
     )
     stores = pagination.items
 
-    return render_template('index.html', stores=stores)
+    return render_template('index.html', stores=stores, pagination=pagination)
 
 
 @app.route('/modify', methods=['GET', 'POST'])
-def modify():
+def create():
     form = StoreForm()
 
     if form.validate_on_submit():
@@ -40,4 +40,34 @@ def modify():
 
         return redirect(url_for('store.index'))
 
+    return render_template('modify.html', form=form)
+
+
+@app.route('/modify/<string:url>', methods=['GET', 'POST'])
+def update(url):
+    store = Store.query.get_or_404(url)
+    form = StoreForm()
+
+    if form.validate_on_submit():
+        store.url = form.url.data
+        store.key = form.key.data
+        store.secret = form.secret.data
+        store.version = form.version.data
+        store.active = form.active.data
+
+        try:
+            db.session.update(store)
+            db.session.commit()
+
+            flash("Your store has been updated.")
+        except Exception as e:
+            flash("Error: Your store hasn't been updated.")
+
+        return redirect(url_for('store.index'))
+
+    form.url.data = store.url
+    form.key.data = store.key
+    form.secret.data = store.secret
+    form.version.data = store.version
+    form.active.data = store.active
     return render_template('modify.html', form=form)
