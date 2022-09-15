@@ -19,7 +19,7 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_RECORD_QUERIES = True
     ORDERS_PER_PAGE = 20
-    SITES_PER_PAGE = 50
+    STORES_PER_PAGE = 30
     SLOW_DB_QUERY_TIME = 0.5
 
     @staticmethod
