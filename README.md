@@ -6,5 +6,5 @@ Multi woocommence store manage system
 
 ## database
 * flask --app app:create_app('default') db init
-* flask --app app:create_app('default') db migrate -m 'say something'
+* flask --app app:create_app('default') db migrate -m "say something"
 * flask --app app:create_app('default') db upgrade

@@ -3,7 +3,8 @@ from . import db
 
 class Store(db.Model):
     __tablename__ = 'stores'
-    url = db.Column(db.String(128), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    url = db.Column(db.String(128), unique=True, index=True)
     key = db.Column(db.String(128))
     secret = db.Column(db.String(128))
     version = db.Column(db.String(128))
