@@ -9,7 +9,7 @@ from .forms import StoreForm
 @app.route('/')
 def index():
     page = request.args.get('page', 1, type=int)
-    pagination = Store.query.order_by(Store.url.asc()).paginate(
+    pagination = Store.query.order_by(Store.id.desc()).paginate(
         page, per_page=current_app.config['STORES_PER_PAGE'],
         error_out=False
     )
@@ -18,17 +18,18 @@ def index():
     return render_template('index.html', stores=stores, pagination=pagination)
 
 
-@app.route('/modify', methods=['GET', 'POST'])
+@app.route('/create', methods=['GET', 'POST'])
 def create():
     form = StoreForm()
 
     if form.validate_on_submit():
-        store = Store()
-        store.url = form.url.data
-        store.key = form.key.data
-        store.secret = form.secret.data
-        store.version = form.version.data
-        store.active = form.active.data
+        store = Store(
+            url=form.url.data,
+            key=form.key.data,
+            secret=form.secret.data,
+            version=form.version.data,
+            active=form.active.data
+        )
 
         try:
             db.session.add(store)
@@ -43,12 +44,13 @@ def create():
     return render_template('modify.html', form=form)
 
 
-@app.route('/modify/<string:url>', methods=['GET', 'POST'])
-def update(url):
-    store = Store.query.get_or_404(url)
+@app.route('/update/<int:id>', methods=['GET', 'POST'])
+def update(id):
+    store = Store.query.get_or_404(id)
     form = StoreForm()
 
     if form.validate_on_submit():
+        store.id = id
         store.url = form.url.data
         store.key = form.key.data
         store.secret = form.secret.data
