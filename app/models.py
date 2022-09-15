@@ -9,3 +9,9 @@ class Store(db.Model):
     secret = db.Column(db.String(128))
     version = db.Column(db.String(128))
     active = db.Column(db.Boolean, default=True)
+
+    def active_store(self):
+        self.active = True
+
+    def deactive_store(self):
+        self.active = False

@@ -14,17 +14,22 @@
                     <th>#</th>
                     <th>Store URL</th>
                     <th>API Version</th>
-                    <th>Active</th>
+                    <th>Status</th>
                 </tr>
             </thead>
             <tbody>
             {% for store in stores %}
-                <tr>
+                <tr class="{% if store.active %}success{% else %}danger{% endif %}">
                     <td>{{ store.id }}</td>
                     <td>{{ store.url }}</td>
                     <td>{{ store.version }}</td>
                     <td>{% if store.active %}Active{% else %}Deactive{% endif %}</td>
                     <td>
+                        {% if store.active %}
+                        <a class="btn-sm btn-danger" href="{{ url_for('store.deactive_store', id=store.id) }}">Deactive</a>
+                        {% else %}
+                        <a class="btn-sm btn-success" href="{{ url_for('store.active_store', id=store.id) }}">Active</a>
+                        {% endif %}
                         <a class="btn-sm btn-primary" href="{{ url_for('store.update', id=store.id) }}">Edit</a>
                     </td>
                 </tr>

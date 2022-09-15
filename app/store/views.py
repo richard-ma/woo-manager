@@ -58,7 +58,6 @@ def update(id):
         store.active = form.active.data
 
         try:
-            db.session.update(store)
             db.session.commit()
 
             flash("Your store has been updated.")
@@ -73,3 +72,34 @@ def update(id):
     form.version.data = store.version
     form.active.data = store.active
     return render_template('modify.html', form=form)
+
+
+@app.route('/active_store/<int:id>', methods=['GET'])
+def active_store(id):
+    store = Store.query.get_or_404(id)
+    store.active_store()
+
+    try:
+        db.session.commit()
+
+        flash("Your store has been updated.")
+    except Exception as e:
+        flash("Error: Your store hasn't been updated.")
+
+    return redirect(url_for('store.index'))
+
+
+@app.route('/deactive_store/<int:id>', methods=['GET'])
+def deactive_store(id):
+    store = Store.query.get_or_404(id)
+    store.deactive_store()
+
+    try:
+        db.session.commit()
+
+        flash("Your store has been updated.")
+    except Exception as e:
+        flash("Error: Your store hasn't been updated.")
+        raise e
+
+    return redirect(url_for('store.index'))
