@@ -8,5 +8,5 @@ class StoreForm(FlaskForm):
     key = StringField('Consumer Key', validators=[DataRequired(), Length(0, 128)])
     secret = StringField('Consumer Secret', validators=[DataRequired(), Length(0, 128)])
     version = StringField('API Version', default='wc/v3', validators=[DataRequired(), Length(0, 128)])
-    active = BooleanField('Active?', default=True, validators=[InputRequired()])
+    active = BooleanField('Active?', default=True)
     submit = SubmitField('Submit')
